@@ -19,7 +19,7 @@ pipeline {
         }
     stage('Build app') {
       steps {
-        sh 'mvn clean install package'
+        sh 'mvn clean install'
       }
     }
     stage('Push Artifact to S3') {
