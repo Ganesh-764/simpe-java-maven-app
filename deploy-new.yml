@@ -1,4 +1,5 @@
-- hosts: tag_Name_ansible_wn
+---
+- hosts: all
   become: true
   tasks:
     - name: copy war file from jenkins to tomcat
