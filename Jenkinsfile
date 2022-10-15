@@ -28,12 +28,12 @@ pipeline {
       }
     }
     
-    stage('Deploy to tomcat') {
-      steps {
-        sh 'sudo scp -i $tomcat_key -o "StrictHostKeyChecking=no" webapp/target/webapp.war ubuntu@3.6.93.113:/opt/tomcat/webapps'
-           sh 'sudo ansible-playbook deploy-new.yml'
-      }
-    }
+//     stage('Deploy to tomcat') {
+//       steps {
+//         sh 'sudo scp -i $tomcat_key -o "StrictHostKeyChecking=no" webapp/target/webapp.war ubuntu@3.6.93.113:/opt/tomcat/webapps'
+//            sh 'sudo ansible-playbook deploy-new.yml'
+//       }
+//     }
     stage('building docker image from docker file by tagging') {
       steps {
         sh 'docker build -t ganesh764/image-demo:$BUILD_NUMBER .'
