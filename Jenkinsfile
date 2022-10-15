@@ -1,22 +1,22 @@
 pipeline {
   agent any
-//   tools {
-//     maven 'maven'
-//   }
+  tools {
+    maven 'maven'
+  }
   stages {
-//     stage ('Initialize') {
-//             steps {
-//                 sh '''
-//                     M2_HOME=/opt/maven
-//                     M2=/opt/maven/bin
-//                     PATH=$PATH:$HOME/bin/:$JAVA_HOME:$M2:$M2_HOME
-//                     export PATH
-//                     echo "PATH = ${PATH}"
-//                     echo "M2_HOME = ${M2_HOME}"
-//                     whoami
-//                 '''
-//             }
-//         }
+    stage ('Initialize') {
+            steps {
+                sh '''
+                    M2_HOME=/opt/maven
+                    M2=/opt/maven/bin
+                    PATH=$PATH:$HOME/bin/:$JAVA_HOME:$M2:$M2_HOME
+                    export PATH
+                    echo "PATH = ${PATH}"
+                    echo "M2_HOME = ${M2_HOME}"
+                    whoami
+                '''
+            }
+        }
     stage('Build app') {
       steps {
         sh 'mvn clean install'
@@ -28,12 +28,12 @@ pipeline {
       }
     }
     
-//     stage('Deploy to tomcat') {
-//       steps {
-//         sh 'sudo scp -i $tomcat_key -o "StrictHostKeyChecking=no" webapp/target/webapp.war ubuntu@3.6.93.113:/opt/tomcat/webapps'
-//            sh 'sudo ansible-playbook deploy-new.yml'
-//       }
-//     }
+    stage('Deploy to tomcat') {
+      steps {
+        sh 'sudo scp -i $tomcat_key -o "StrictHostKeyChecking=no" webapp/target/webapp.war ubuntu@3.6.93.113:/opt/tomcat/webapps'
+           sh 'sudo ansible-playbook deploy-new.yml'
+      }
+    }
     stage('building docker image from docker file by tagging') {
       steps {
         sh 'docker build -t ganesh764/image-demo:$BUILD_NUMBER .'
