@@ -34,19 +34,21 @@ pipeline {
 //            sh 'sudo ansible-playbook deploy-new.yml'
 //       }
 //     }
+     stage('logging into ecr') {
+      steps {
+        aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 157805893071.dkr.ecr.ap-south-1.amazonaws.com
+      }   
+    }
     stage('building docker image from docker file by tagging') {
       steps {
-        sh 'docker build -t ganesh764/image-demo:$BUILD_NUMBER .'
+        sh 'docker pull 157805893071.dkr.ecr.ap-south-1.amazonaws.com/hello:latest'
+        sh 'docker tag hello:latest 157805893071.dkr.ecr.ap-south-1.amazonaws.com/hello:$BUILD_NUMBER .'
       }   
     }
-    stage('logging into docker hub') {
-      steps {
-        sh 'docker login --username="ganesh764" --password="Ganesh143@docker"'
-      }   
-    }
+   
     stage('pushing docker image to the docker hub with build number') {
       steps {
-        sh 'docker push ganesh764/image-demo:$BUILD_NUMBER'
+        sh 'docker push 157805893071.dkr.ecr.ap-south-1.amazonaws.com/hello:$BUILD_NUMBER'
       }   
     }
     stage('deploying the docker image into EC2 instance and run the container') {
